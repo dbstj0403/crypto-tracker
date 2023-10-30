@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-
-interface CoinInterface {
+import { useQuery } from "react-query";
+import { fetchCoins } from "../api";
+interface ICoin {
   id: string;
   name: string;
   symbol: string;
@@ -53,27 +54,29 @@ const Img = styled.img`
 `;
 
 function Coins() {
-  const [coins, setCoins] = useState<CoinInterface[]>([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    (async () => {
-      const response = await fetch("https://api.coinpaprika.com/v1/coins");
-      const json = await response.json();
-      console.log(json);
-      setCoins(json.slice(0, 100)); // 앞에서부터 100개만 slice
-      setLoading(false); // Coins State 변수에 코인들이 모두 세팅되면 loading State 변수 값 false로 변경
-    })(); // () : 함수를 즉시 실행하도록 해줌!
-  }, []);
+  const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
+  // const [coins, setCoins] = useState<CoinInterface[]>([]);
+  // const [loading, setLoading] = useState(true);
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await fetch("https://api.coinpaprika.com/v1/coins");
+  //     const json = await response.json();
+  //     console.log(json);
+  //     setCoins(json.slice(0, 100)); // 앞에서부터 100개만 slice
+  //     setLoading(false); // Coins State 변수에 코인들이 모두 세팅되면 loading State 변수 값 false로 변경
+  //   })(); // () : 함수를 즉시 실행하도록 해줌!
+  // }, []);
+
   return (
     <Container>
       <Header>
         <Title>Coins</Title>
       </Header>
-      {loading ? (
+      {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
         <CoinsList>
-          {coins.map((coin) => (
+          {data?.slice(0, 100).map((coin) => (
             <Coin key={coin.id}>
               <Link to={`/${coin.id}`} state={{ name: coin.name }}>
                 <Img

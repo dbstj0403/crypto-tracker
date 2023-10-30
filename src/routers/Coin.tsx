@@ -194,8 +194,6 @@ function Coin() {
               <Link to={`/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
-          <Link to={`/${coinId}/chart`}>Chart</Link>
-          <Link to={`/${coinId}/price`}>Price</Link>
           <Routes>
             <Route path="price" element={<Price />} />
             <Route path="chart" element={<Chart />} />
