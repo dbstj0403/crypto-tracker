@@ -168,8 +168,13 @@ function Coin() {
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
+<<<<<<< HEAD
               <span>Open Source:</span>
               <span>${tickersData?.quotes?.USD?.price?.toFixed(3)}</span>
+=======
+              <span>Price:</span>
+              <span>{tickersData?.quotes.USD.price.toFixed(3)}</span>
+>>>>>>> 55fe453 (#5 Price chart)
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
